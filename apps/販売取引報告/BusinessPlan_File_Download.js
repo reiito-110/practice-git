@@ -96,14 +96,42 @@
 
       try {
         const filesToDownload = [];
+        const processedKeys = new Set(); // 重複チェック用
+        const targetPropertyNames = []; // 出力用リスト
+        const skippedPropertyNames = []; // 重複スキップ用リスト
+
         records.forEach(record => {
           const files = record[FILE_FIELD].value;
           if (files && files.length > 0) {
+            // 物件名と号室を取得
+            const propertyName = record['物件名'] ? record['物件名'].value : '';
+            const roomNumber = record['号室'] ? record['号室'].value : '';
+
+            // 重複チェック用のキー生成（全角・半角スペースを削除）
+            const uniqueKey = (propertyName + roomNumber).replace(/\s+/g, '');
+
+            // 既に処理済みの物件＋号室ならスキップ
+            if (uniqueKey && processedKeys.has(uniqueKey)) {
+              skippedPropertyNames.push(propertyName + roomNumber);
+              return;
+            }
+            // 未処理ならキーを登録
+            if (uniqueKey) {
+              processedKeys.add(uniqueKey);
+              targetPropertyNames.push(propertyName + roomNumber);
+            }
+
             files.forEach(file => {
+              // ファイル名の生成: 物件名＋号室.拡張子
+              let fileName = file.name;
+              if (propertyName || roomNumber) {
+                const extension = file.name.lastIndexOf('.') !== -1 ? file.name.substring(file.name.lastIndexOf('.')) : '';
+                fileName = propertyName + roomNumber + '号室' + extension;
+              }
               filesToDownload.push({
                 recordId: record.$id.value,
                 fileKey: file.fileKey,
-                fileName: file.name
+                fileName: fileName
               });
             });
           }
@@ -122,13 +150,47 @@
             const fileBlob = await downloadFile(fileInfo.fileKey);
             saveAs(fileBlob, fileInfo.fileName);
             downloadedCount++;
+
+            // 10件ごとに長めの待機時間を設ける（ブラウザの制限回避）
+            if ((i + 1) % 10 === 0 && (i + 1) < filesToDownload.length) {
+              await new Promise(resolve => setTimeout(resolve, 3000));
+            } else {
+              // 連続処理による負荷軽減のためわずかに待機
+              await new Promise(resolve => setTimeout(resolve, 200));
+            }
           } catch (e) {
             console.error(`ファイル(fileName: ${fileInfo.fileName}, fileKey: ${fileInfo.fileKey})のダウンロードに失敗しました。`, e);
             // 特定のファイルでエラーが起きても処理を続行する
           }
         }
 
-        alert(`${downloadedCount} 件のファイルのダウンロードを開始しました。`);
+        let resultMessage = `${downloadedCount} 件のファイルのダウンロードを開始しました。\n\n【保存した物件】\n${targetPropertyNames.join('\n')}`;
+        if (skippedPropertyNames.length > 0) {
+          resultMessage += `\n\nーーーーーーーーー\n重複が確認された物件\n${skippedPropertyNames.join('\n')}`;
+        }
+
+        // 結果表示用のカスタムダイアログを作成（alertの文字数制限回避のため）
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:10000;display:flex;justify-content:center;align-items:center;';
+        
+        const dialog = document.createElement('div');
+        dialog.style.cssText = 'background:white;padding:20px;border-radius:5px;width:600px;max-width:90%;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 4px 6px rgba(0,0,0,0.1);';
+        
+        const messageArea = document.createElement('div');
+        messageArea.style.cssText = 'overflow-y:auto;margin-bottom:20px;white-space:pre-wrap;font-size:14px;line-height:1.5;border:1px solid #ccc;padding:10px;background:#f9f9f9;';
+        messageArea.textContent = resultMessage;
+        
+        const closeButton = document.createElement('button');
+        closeButton.innerText = '閉じる';
+        closeButton.className = 'kintoneplugin-button-normal';
+        closeButton.style.alignSelf = 'center';
+        closeButton.style.width = '120px';
+        closeButton.onclick = () => document.body.removeChild(overlay);
+        
+        dialog.appendChild(messageArea);
+        dialog.appendChild(closeButton);
+        overlay.appendChild(dialog);
+        document.body.appendChild(overlay);
 
       } catch (e) {
         console.error(e);
@@ -136,7 +198,7 @@
       } finally {
         // 8. ボタンの状態を元に戻す
         button.disabled = false;
-        button.innerText = '表示中の事業計画書をダウンロード';
+        button.innerText = '事業計画書ダウンロード';
       }
     };
 
