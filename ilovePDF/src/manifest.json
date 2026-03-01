@@ -1,0 +1,36 @@
+{
+  "manifest_version": 1,
+  "version": 1,
+  "homepage_url": {
+    "ja": "https://example.com",
+    "en": "https://example.com"
+  },
+  "type": "APP",
+  "name": {
+    "ja": "PDF結合プラグイン",
+    "en": "PDF Merge Plugin"
+  },
+  "description": {
+    "ja": "レコードに添付された複数のPDFファイルをブラウザ上で結合します（APIキー不要）。",
+    "en": "Merges multiple PDF attachments in the browser (No API key required)."
+  },
+  "icon": "image/icon.png",
+  "desktop": {
+    "js": [
+      "js/pdf-lib.min.js",
+      "js/desktop.js"
+    ],
+    "css": [
+      "css/desktop.css"
+    ]
+  },
+  "config": {
+    "html": "config/html/config.html",
+    "js": [
+      "config/js/config.js"
+    ],
+    "css": [
+      "config/css/config.css"
+    ]
+  }
+}

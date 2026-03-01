@@ -1,0 +1,196 @@
+.settings {
+    padding: 20px;
+}
+
+.settings-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+}
+
+.settings-description {
+    margin-bottom: 20px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.kintoneplugin-table {
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 20px;
+}
+
+.kintoneplugin-table-th {
+    background-color: #f7f9fa;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #e3e7e8;
+}
+
+.kintoneplugin-table-td {
+    padding: 10px;
+    border: 1px solid #e3e7e8;
+    vertical-align: top;
+    position: relative;
+}
+
+/* 検索可能プルダウン */
+.searchable-select-container {
+    position: relative;
+}
+
+.searchable-select-display {
+    cursor: pointer;
+    background: #fff;
+    padding-right: 30px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.searchable-select-display:after {
+    content: '▼';
+    position: absolute;
+    right: 10px;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.searchable-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid #e3e7e8;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+}
+
+.searchable-select-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.searchable-select-item {
+    padding: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.searchable-select-item:hover {
+    background: #f0f0f0;
+}
+
+/* タグ表示 */
+.tag-searchable-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 5px;
+}
+
+.tag-item {
+    background: #e1f5fe;
+    color: #0288d1;
+    border: 1px solid #b3e5fc;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tag-remove {
+    cursor: pointer;
+    font-weight: bold;
+    color: #01579b;
+}
+
+.tag-remove:hover {
+    color: #d32f2f;
+}
+
+/* 検索窓とリスト */
+.item-list {
+    max-height: 120px;
+    overflow-y: auto;
+    border: 1px solid #e3e7e8;
+    background: #fafafa;
+    padding: 5px;
+}
+
+.item-label {
+    display: flex;
+    align-items: center;
+    padding: 3px 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.item-label:hover {
+    background: #eee;
+}
+
+.item-label input {
+    margin-right: 6px;
+}
+
+/* 詳細設定（ラジオボタン） */
+.radio-label {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.sub-fields-list {
+    margin-top: 10px;
+    background: #f9f9f9;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.sub-field-row {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.remove-sub-field {
+    background: #ff5252;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    width: 24px;
+    cursor: pointer;
+}
+
+.settings-action {
+    margin-top: 20px;
+}
+
+.settings-submit {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e3e7e8;
+}
+
+.remove-row-button {
+    background: none;
+    border: none;
+    color: #ff5252;
+    cursor: pointer;
+    font-size: 1.4rem;
+}

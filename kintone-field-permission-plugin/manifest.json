@@ -1,0 +1,29 @@
+{
+  "manifest_version": 1,
+  "version": "1.0.0",
+  "type": "APP",
+  "name": {
+    "ja": "フィールド組織別閲覧制限プラグイン",
+    "en": "Field Permission by Organization Plugin"
+  },
+  "description": {
+    "ja": "組織ごとにフィールドの閲覧制限（閲覧・編集時）を設定できるプラグインです。",
+    "en": "Plugin to restrict field visibility (view/edit) based on organization."
+  },
+  "icon": "img/icon.png",
+  "desktop": {
+    "js": [
+      "js/desktop.js"
+    ],
+    "css": []
+  },
+  "config": {
+    "html": "html/config.html",
+    "js": [
+      "js/config.js"
+    ],
+    "css": [
+      "css/config.css"
+    ]
+  }
+}

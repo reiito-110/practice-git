@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>予定アプリマニュアル</title>
+    <style>
+        :root {
+            --corporate-color: #A082BE;
+            --bg-light: #D9CDE5;
+            --bg-dark: #9075AB;
+            --text-color: #7030A0;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        header {
+            border-bottom: 5px solid var(--corporate-color);
+            padding: 20px 0;
+            text-align: right;
+        }
+
+        .title-page {
+            text-align: center;
+            padding: 100px 0;
+            border-bottom: 2px solid var(--bg-light);
+        }
+
+        .title-page h1 {
+            font-size: 3em;
+            color: #000;
+        }
+
+        .info-fields {
+            margin-top: 50px;
+            text-align: right;
+        }
+
+        .info-fields p {
+            margin: 5px 0;
+            border-bottom: 1px solid #000;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        h2 {
+            background-color: var(--bg-dark);
+            color: white;
+            padding: 10px;
+            margin-top: 40px;
+            page-break-before: always;
+            break-before: page;
+        }
+
+        h3 {
+            border-left: 10px solid var(--corporate-color);
+            padding-left: 10px;
+            color: var(--text-color);
+            margin-top: 30px;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc li {
+            padding: 5px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--bg-light);
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid var(--bg-light);
+            border-radius: 5px;
+        }
+
+        .question {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .answer {
+            margin-top: 10px;
+        }
+
+        .footer-logo {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background-color: var(--bg-light);
+        }
+
+        .screenshot-placeholder {
+            background-color: #f9f9f9;
+            border: 2px dashed #ccc;
+            padding: 40px;
+            text-align: center;
+            color: #666;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- 表紙 -->
+        <section class="title-page">
+            <p>株式会社リアークスファインド</p>
+            <h1>予定アプリマニュアル</h1>
+            <div class="info-fields">
+                <p>日付：2026/02/14</p><br>
+                <p>部署：IT推進課</p><br>
+                <p>氏名：伊藤</p>
+            </div>
+        </section>
+
+        <!-- 目次 -->
+        <section class="toc">
+            <h2 style="page-break-before: avoid; break-before: auto; margin-top: 0;">目次</h2>
+            <ul>
+                <li>1. 概要</li>
+                <li>2. 一覧画面</li>
+                <li>3. 予定の表示方法</li>
+                <li>4. 予定の登録手順</li>
+                <li>5. FAQ</li>
+                <li>6. 改訂履歴</li>
+            </ul>
+        </section>
+
+        <!-- 1. 概要 -->
+        <section id="overview">
+            <h2>◆１．概要</h2>
+            <table>
+                <tr>
+                    <th>項目</th>
+                    <th>内容</th>
+                </tr>
+                <tr>
+                    <td>業務説明</td>
+                    <td>Kintoneを利用した社内予定の管理</td>
+                </tr>
+                <tr>
+                    <td>目的</td>
+                    <td>個人の予定およびグループの予定を可視化し、効率的なスケジュール調整を行う。</td>
+                </tr>
+                <tr>
+                    <td>ゴール</td>
+                    <td>全社員が正確に予定を登録・共有できている状態。</td>
+                </tr>
+                <tr>
+                    <td>対象者</td>
+                    <td>全社員</td>
+                </tr>
+                <tr>
+                    <td>予定URL</td>
+                    <td><a href="https://rearx-find.cybozu.com/k/2760/"
+                            target="_blank">https://rearx-find.cybozu.com/k/2760/</a></td>
+                </tr>
+            </table>
+            <p>Kintoneトップ画面の「予定アプリ」ボタンからアクセス可能です。トップページには1週間分の予定が表示されます。</p>
+            <div style="text-align: center;">
+                <img src="予定管理マニュアル/Kintone_ホーム画面.png" alt="Kintone ホーム画面"
+                    style="max-width: 100%; border: 1px solid #ccc;">
+                <p style="font-size: 0.9em; color: #666;">[図1: Kintone ホーム画面]</p>
+            </div>
+        </section>
+
+        <!-- 2. 一覧画面 -->
+        <section id="list-screen">
+            <h2>◆２．一覧画面</h2>
+            <div style="text-align: center;">
+                <img src="予定管理マニュアル/予定管理一覧画面.png" alt="予定管理一覧画面" style="max-width: 100%; border: 1px solid #ccc;">
+                <p style="font-size: 0.9em; color: #666;">[図2: 予定管理一覧画面]</p>
+            </div>
+            <p>一覧画面では、以下の操作が可能です：</p>
+            <ul>
+                <li><strong>一覧:</strong> 一覧で、組織や会議室などの表示が変更できます。</li>
+                <li><strong>ユーザー絞込:</strong> ユーザー絞込で人をしぼって表示できます。</li>
+            </ul>
+        </section>
+
+        <!-- 3. 予定の表示方法 -->
+        <section id="display">
+            <h2>◆３．予定の表示方法</h2>
+            <h3>表示の切り替え</h3>
+            <p>画面上部のタブから、月、週、日の各単位で表示を切り替えることができます。<strong>通常は「月」または「週」単位での使用を推奨します。</strong></p>
+            <ul>
+                <li>#月：一ヶ月単位で表示</li>
+                <li>#週：一週間単位で表示</li>
+                <li>#日：一日単位で詳細を表示</li>
+            </ul>
+            <div style="text-align: center;">
+                <img src="予定管理マニュアル/表示切り替え.png" alt="表示切り替え" style="max-width: 100%; border: 1px solid #ccc;">
+                <p style="font-size: 0.9em; color: #666;">[図3: 表示切り替え設定]</p>
+            </div>
+        </section>
+
+        <!-- 4. 予定の登録手順 -->
+        <section id="registration">
+            <h2>◆４．予定の登録手順</h2>
+            <p>予定の登録には主に2つの方法があります：</p>
+            <ol>
+                <li><strong>kintoneレコード追加:</strong> アプリに直接レコードを追加する方法。</li>
+                <li><strong>予定登録ボタン:</strong> 画面右下のボタンから登録する方法。日時、週次、月次のスケジュール登録が可能です。</li>
+            </ol>
+
+            <h3>【手順1】 予定登録ボタンを押す</h3>
+            <p>画面右下にある「予定登録」ボタンをクリックします。ここから新規予定の作成を開始します。</p>
+            <div style="text-align: center; margin: 20px 0;">
+                <img src="予定登録ボタン.png" alt="予定登録ボタン" style="max-width: 80%; border: 1px solid #ccc;">
+                <p style="font-size: 0.9em; color: #666;">[図4-1: ページ右下の予定登録ボタン]</p>
+            </div>
+
+            <h3>【手順2】 詳細を入力して保存</h3>
+            <p>詳細画面が表示されるので、必要な情報を入力します。
+                <br>種別から「通常」「繰り返し」「期間」「複数」を選択することで、用途に合わせた登録が可能です。
+            </p>
+
+            <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <p><strong>〇通常</strong><br>
+                    1件の予定を追加します。</p>
+
+                <p><strong>〇繰り返し</strong><br>
+                    開始日と終了日の範囲内で、繰り返し登録が可能です。<br>
+                    （毎日、平日のみ、毎週何曜日、毎月何日 などの指定ができます）</p>
+
+                <p><strong>〇期間</strong><br>
+                    期間内で終日の予定を追加します。</p>
+
+                <p><strong>〇複数</strong><br>
+                    複数日での予定を一括で登録します。<br>
+                    （隔週の予定などに適しています）</p>
+            </div>
+
+            <p>自分だけでなく、参加メンバーや設備（会議室・車両）の予約もここから一括で行えます。</p>
+            <div style="text-align: center; margin: 20px 0;">
+                <img src="予定管理マニュアル/予定登録ボタンの詳細画面.png" alt="予定登録詳細" style="max-width: 80%; border: 1px solid #ccc;">
+                <p style="font-size: 0.9em; color: #666;">[図4-2: 予定登録の詳細入力画面]</p>
+            </div>
+
+            <h3>登録時の注意点</h3>
+            <ul>
+                <li><strong>タイトル:</strong> 予定名を正確に入力してください。</li>
+                <li><strong>場所/設備:</strong> 参加者、会議室、車両などを選択可能です。</li>
+                <li><strong>空き確認:</strong> 参加者や設備の空き状況を事前に確認してください。他と重複している場合はエラーが表示されます。</li>
+                <li><strong>ステータス:</strong> 予定を削除・中断する場合は、ステータスを「キャンセル」に変更してください。</li>
+            </ul>
+        </section>
+
+        <!-- 5. FAQ -->
+        <section id="faq">
+            <h2>◆５．FAQ</h2>
+            <div class="faq-item">
+                <p class="question">Q1. 予定が重複して登録できません。</p>
+                <p class="answer">A1. 参加者または設備が既に他の予定で使用されています。空き状況を確認し、別の時間帯を指定してください。</p>
+            </div>
+            <div class="faq-item">
+                <p class="question">Q2. 予定を削除したいのですが。</p>
+                <p class="answer">A2. レコード自体を削除するのではなく、ステータスを「キャンセル」に変更して保存してください。</p>
+            </div>
+            <div class="faq-item">
+                <p class="question">Q3. 他人の予定を編集することはできますか？</p>
+                <p class="answer">A3. 基本的には作成者または管理者のみが編集可能です。詳細はIT部門へお問い合わせください。</p>
+            </div>
+        </section>
+
+        <!-- 6. 改訂履歴 -->
+        <section id="history">
+            <h2>◆６．改訂履歴</h2>
+            <table>
+                <tr>
+                    <th>日付</th>
+                    <th>改訂事項</th>
+                    <th>担当</th>
+                    <th>承認者</th>
+                </tr>
+                <tr>
+                    <td>2025/09/15</td>
+                    <td>新規作成（Ver1）</td>
+                    <td>生田目</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2026/02/14</td>
+                    <td>内容の修正、参考情報の追加 (Ver3)</td>
+                    <td>伊藤</td>
+                    <td></td>
+                </tr>
+            </table>
+        </section>
+
+
+
+
+        <footer class="footer-logo">
+            株式会社リアークスファインド
+        </footer>
+    </div>
+
+</body>
+
+</html>

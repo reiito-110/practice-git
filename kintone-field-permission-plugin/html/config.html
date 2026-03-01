@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <section class="settings">
+        <h2 class="settings-title">高度なフィールド権限制御設定</h2>
+        <p class="settings-description">
+            各フィールド（またはテーブル内の特定の列）を<strong>閲覧できる組織・ユーザー</strong>を選択してください。<br>
+            設定がないフィールドは、すべてのユーザーが閲覧できます。
+        </p>
+
+        <table class="kintoneplugin-table" id="permission-table">
+            <thead>
+                <tr>
+                    <th class="kintoneplugin-table-th" style="width: 200px;"><span class="title">対象項目</span></th>
+                    <th class="kintoneplugin-table-th" style="width: 250px;"><span class="title">詳細設定</span></th>
+                    <th class="kintoneplugin-table-th"><span class="title">閲覧を許可する組織</span></th>
+                    <th class="kintoneplugin-table-th"><span class="title">閲覧を許可するユーザー</span></th>
+                    <th class="kintoneplugin-table-th-blankspace"></th>
+                </tr>
+            </thead>
+            <tbody id="permission-table-body">
+                <!-- 行が動的に追加されます -->
+            </tbody>
+        </table>
+
+        <div class="settings-action">
+            <button type="button" class="kintoneplugin-button-dialog-ok" id="add-row-button">行を追加</button>
+        </div>
+
+        <div class="settings-submit">
+            <button type="button" class="kintoneplugin-button-dialog-ok" id="save-button">保存</button>
+            <button type="button" class="kintoneplugin-button-dialog-cancel" id="cancel-button">キャンセル</button>
+        </div>
+    </section>
+</body>
+
+</html>

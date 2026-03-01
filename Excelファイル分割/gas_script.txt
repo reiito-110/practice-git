@@ -1,0 +1,123 @@
+/**
+ * 【使い方】ExcelファイルをGoogleスプレッドシートに一括変換するスクリプト
+ * 
+ * 1. Googleドライブに分割されたExcelファイルが入ったフォルダをアップロードしてください。
+ * 2. Google Apps Script ( https://script.google.com/home/start ) を開き、「新しいプロジェクト」を作成します。
+ * 3. このファイルの内容をすべてコピーして、エディタに貼り付けてください。
+ * 4. 左側のメニューの「サービス」の「+」をクリックし、「Drive API」を選択します。
+ *    重要: 「バージョン」プルダウンで【v2】を選択してから「追加」してください。(v3だと動きません)
+ * 5. 下記の FOLDER_ID を、アップロードしたフォルダのIDに書き換えてください。
+ * 6. 「実行」ボタンを押して main 関数を実行してください。
+ */
+
+// ▼ここにフォルダID、またはフォルダのURLを入力してください
+const FOLDER_ID_OR_URL = 'https://drive.google.com/drive/u/0/folders/1xGSHdOaKky2NFcE1I1ox3vqCK_kIxbm-'; 
+
+function main() {
+  // URLが貼り付けられた場合、ID部分だけを抽出する処理
+  var folderId = FOLDER_ID_OR_URL;
+  if (FOLDER_ID_OR_URL.indexOf("drive.google.com") !== -1) {
+    var parts = FOLDER_ID_OR_URL.split("/");
+    // URLの最後がIDであることが多いが、パラメータがついている場合もあるので調整
+    folderId = parts[parts.length - 1];
+    if (folderId.indexOf("?") !== -1) {
+      folderId = folderId.split("?")[0];
+    }
+  }
+
+  // 余分な空白を除去
+  folderId = folderId.trim();
+
+  // IDチェック
+  if (!folderId || folderId === 'ここにフォルダIDを貼り付けてください') {
+    var msg = "エラー: フォルダIDが設定されていません。スクリプト内の FOLDER_ID_OR_URL を書き換えてください。";
+    Logger.log(msg);
+    return;
+  }
+
+  var rootFolder;
+  try {
+    rootFolder = DriveApp.getFolderById(folderId);
+  } catch (e) {
+    Logger.log("フォルダが見つかりません。IDを確認してください: " + e);
+    return;
+  }
+
+  var totalCount = 0;
+  var totalSkipped = 0;
+  var deletedCount = 0;
+
+  Logger.log("【処理開始】ルートフォルダ: " + rootFolder.getName());
+
+  // 再帰処理を開始
+  processFolderRecursive(rootFolder);
+  
+  Logger.log("---------------------------------------------------");
+  Logger.log("【完了】合計変換数: " + totalCount + " 件");
+  Logger.log("【完了】合計削除数: " + deletedCount + " 件");
+  Logger.log("【完了】合計スキップ: " + totalSkipped + " 件");
+
+  // 再帰的にフォルダを探索する関数
+  function processFolderRecursive(currentFolder) {
+    Logger.log("フォルダ処理中: " + currentFolder.getName());
+
+    // 1. 現在のフォルダ内のExcelファイルを処理
+    var files = currentFolder.getFilesByType(MimeType.MICROSOFT_EXCEL);
+    while (files.hasNext()) {
+      var file = files.next();
+      var result = convertAndDeleteExcel(file, currentFolder);
+      if (result === "CONVERTED") {
+        totalCount++;
+        deletedCount++;
+      } else if (result === "SKIPPED") {
+        totalSkipped++;
+      }
+      // API制限回避のための短いウェイト
+      Utilities.sleep(500); 
+    }
+
+    // 2. サブフォルダがあれば、それらに対しても同じ処理を行う（再帰）
+    var subfolders = currentFolder.getFolders();
+    while (subfolders.hasNext()) {
+        processFolderRecursive(subfolders.next());
+    }
+  }
+
+  // 1つのファイルを変換して削除する関数
+  function convertAndDeleteExcel(file, folder) {
+    var name = file.getName().replace(".xlsx", "").replace(".xls", "");
+    
+    // すでにスプレッドシートが存在するか確認
+    var existing = folder.getFilesByName(name);
+    if (existing.hasNext()) {
+      var existFile = existing.next();
+      if (existFile.getMimeType() === MimeType.GOOGLE_SHEETS) {
+        Logger.log("スキップ (変換済み): " + name);
+        file.setTrashed(true); // 変換済みの場合も元のExcelは削除（ゴミ箱へ）
+        return "SKIPPED";
+      }
+    }
+    
+    Logger.log("  → 変換中...: " + file.getName());
+    
+    var blob = file.getBlob();
+    var resource = {
+      title: name,
+      parents: [{id: folder.getId()}]
+    };
+    
+    try {
+      // 変換実行
+      Drive.Files.insert(resource, blob, {convert: true});
+      
+      // 成功したら元のExcelファイルをゴミ箱へ移動（削除）
+      file.setTrashed(true);
+      Logger.log("    変換成功・削除完了: " + name);
+      return "CONVERTED";
+      
+    } catch (e) {
+      Logger.log("    ★変換エラー (" + name + "): " + e);
+      return "ERROR";
+    }
+  }
+}
